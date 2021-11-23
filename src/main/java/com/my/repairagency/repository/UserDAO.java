@@ -58,7 +58,9 @@ public class UserDAO {
 
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
-            userWithRoleDTO = UserMapper.getInstance().mapUserWithRole(resultSet);
+            if(resultSet.next()) {
+                userWithRoleDTO = UserMapper.getInstance().mapUserWithRole(resultSet);
+            }
         } catch (SQLException e) {
             logger.error("Error with connecting to database");
             throw new DAOException("Cannot connect to database. Please try later");
@@ -77,7 +79,9 @@ public class UserDAO {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            userWithRoleDTO = UserMapper.getInstance().mapUserWithRole(resultSet);
+            if(resultSet.next()) {
+                userWithRoleDTO = UserMapper.getInstance().mapUserWithRole(resultSet);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

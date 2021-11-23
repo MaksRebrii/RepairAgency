@@ -28,20 +28,20 @@ public class ApplicationMapper implements EntityMapper<Application> {
         }
         return instance;
     }
+
     @Override
     public Application map(ResultSet rs) throws SQLException {
         logger.trace("Application mapping started");
-       Application application = new Application();
-       application.setId(-1);
-       if(rs.next()){
-           application.setId(rs.getInt(ID));
-           application.setClientId(rs.getInt(CLIENT_ID));
-           application.setMasterId(rs.getInt(MASTER_ID));
-           application.setDescription(rs.getString(DESCRIPTION));
-           application.setPrice(rs.getBigDecimal(PRICE));
-           application.setReview(rs.getString(REVIEW));
-       }
-       logger.debug("mapped application: {}", application);
-       return application;
+        Application application = new Application();
+        application.setId(-1);
+        application.setId(rs.getInt(ID));
+        application.setClientId(rs.getInt(CLIENT_ID));
+        application.setMasterId(rs.getInt(MASTER_ID));
+        application.setDescription(rs.getString(DESCRIPTION));
+        application.setPrice(rs.getBigDecimal(PRICE));
+        application.setReview(rs.getString(REVIEW));
+
+        logger.debug("mapped application: {}", application);
+        return application;
     }
 }

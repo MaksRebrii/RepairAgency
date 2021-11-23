@@ -29,10 +29,8 @@ public class RoleMapper implements EntityMapper<Role> {
         logger.trace("Role mapping started");
         Role role = new Role();
         role.setId(-1);
-        if (rs.next()) {
-            role.setId(rs.getInt(ID));
-            role.setTitle(rs.getString(title));
-        }
+        role.setId(rs.getInt(ID));
+        role.setTitle(rs.getString(title));
         logger.debug("mapped role: {}", role);
         return role;
     }

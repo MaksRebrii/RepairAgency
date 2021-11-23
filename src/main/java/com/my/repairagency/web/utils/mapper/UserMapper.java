@@ -56,15 +56,14 @@ public class UserMapper implements EntityMapper<User> {
         logger.trace("user with role mapping started");
         UserWithRoleDTO userWithRoleDTO = new UserWithRoleDTO();
         userWithRoleDTO.setId(-1);
-        if (rs.next()) {
-            userWithRoleDTO.setId(rs.getInt(ID));
-            userWithRoleDTO.setName(rs.getString(NAME));
-            userWithRoleDTO.setSurname(rs.getString(SURNAME));
-            userWithRoleDTO.setEmail(rs.getString(EMAIL));
-            userWithRoleDTO.setPassword(rs.getString(PASSWORD));
-            userWithRoleDTO.setAccount(rs.getBigDecimal(ACCOUNT));
-            userWithRoleDTO.setRole(rs.getString(TITLE));
-        }
+        userWithRoleDTO.setId(rs.getInt(ID));
+        userWithRoleDTO.setName(rs.getString(NAME));
+        userWithRoleDTO.setSurname(rs.getString(SURNAME));
+        userWithRoleDTO.setEmail(rs.getString(EMAIL));
+        userWithRoleDTO.setPassword(rs.getString(PASSWORD));
+        userWithRoleDTO.setAccount(rs.getBigDecimal(ACCOUNT));
+        userWithRoleDTO.setRole(rs.getString(TITLE));
+
         logger.debug("mapped user with role: {}", userWithRoleDTO);
         return userWithRoleDTO;
     }

@@ -138,7 +138,7 @@
                 </thead>
 
                 <tbody>
-                   <%-- <c:forEach var="application" items="applicationList">
+                   <c:forEach var="application" items="applicationList">
                         <tr>
                             <td>${application.id}</td>
                             <td>${application.description}</td>
@@ -150,7 +150,6 @@
                         </tr>
                     </c:forEach>
 
---%>
                 </tbody>
             </table>
         <%--</c:otherwise>
