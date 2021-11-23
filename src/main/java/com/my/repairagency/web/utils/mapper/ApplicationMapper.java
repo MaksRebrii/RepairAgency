@@ -14,6 +14,10 @@ public class ApplicationMapper implements EntityMapper<Application> {
     private static final String ID = "application_id";
     private static final String CLIENT_ID = "client_id";
     private static final String MASTER_ID = "master_id";
+    private static final String Date = "date";
+    private static final String COMPLETION_STATUS = "completion_status";
+    private static final String PAYMENT_STATUS = "payment_status";
+
     private static final String DESCRIPTION = "application_description";
     private static final String PRICE = "application_price";
     private static final String REVIEW = "application_review";
@@ -40,6 +44,9 @@ public class ApplicationMapper implements EntityMapper<Application> {
         application.setDescription(rs.getString(DESCRIPTION));
         application.setPrice(rs.getBigDecimal(PRICE));
         application.setReview(rs.getString(REVIEW));
+        application.setDate(rs.getTimestamp(Date));
+        application.setPaymentStatus(rs.getString(PAYMENT_STATUS));
+        application.setCompletionStatus(rs.getString(COMPLETION_STATUS));
 
         logger.debug("mapped application: {}", application);
         return application;

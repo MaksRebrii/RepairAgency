@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="WEB-INF/includes/taglib.jspf"%>
+<%@ include file="WEB-INF/includes/taglib.jspf" %>
 
 <html>
 <head>
@@ -63,13 +63,13 @@
             <h6>Price</h6>
 
             <div class="form-check">
-                <input class="form-check-input" type="radio"  id="flexRadioDefault1" name="price" checked>
+                <input class="form-check-input" type="radio" id="flexRadioDefault1" name="price" checked>
                 <label class="form-check-label" for="flexRadioDefault1">
                     Any
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio"  id="flexRadioDefault2" name="price">
+                <input class="form-check-input" type="radio" id="flexRadioDefault2" name="price">
                 <label class="form-check-label" for="flexRadioDefault2">
                     <input type="number" min="0" max="" placeholder="min">
                     <input type="number" min="0" max="" placeholder="max">
@@ -83,13 +83,13 @@
             <h6>date of issue</h6>
 
             <div class="form-check">
-                <input class="form-check-input" type="radio"  id="flexRadioDefault3" name="date" checked>
+                <input class="form-check-input" type="radio" id="flexRadioDefault3" name="date" checked>
                 <label class="form-check-label te" for="flexRadioDefault1">
                     Any
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio"  id="flexRadioDefault24" name="date">
+                <input class="form-check-input" type="radio" id="flexRadioDefault24" name="date">
                 <label class="form-check-label" for="flexRadioDefault2">
                     <input type="date">
                     <input type="date">
@@ -119,42 +119,42 @@
 
 <div class="container-fluid">
 
-    <%--<c:choose>
-        <c:when test="${fn:length(applicationList) == 0}"> <h4 class="bg-warning">No such orders</h4></c:when>
+    <c:choose>
+        <c:when test="${fn:length(applicationList) == 0}"><h4 class="bg-warning">No such orders</h4></c:when>
 
-        <c:otherwise>--%>
+        <c:otherwise>
             <table class="table">
-                <caption>found applications</caption>
+                <caption class="text-center">found applications</caption>
                 <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Description</th>
-                        <th>Date of issue</th>
-                        <th>Master</th>
-                        <th>Completion status</th>
-                        <th>Price</th>
-                        <th>Payment status</th>
-                    </tr>
+                <tr>
+                    <th>№</th>
+                    <th>Description</th>
+                    <th>Date of issue</th>
+                    <th>Master</th>
+                    <th>Completion status</th>
+                    <th>Price</th>
+                    <th>Payment status</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                   <c:forEach var="application" items="applicationList">
-                        <tr>
-                            <td>${application.id}</td>
-                            <td>${application.description}</td>
-                            <td>date</td>
-                            <td>${application.master.id}</td>
-                            <td>comp status</td>
-                            <td>${application.price}</td>
-                            <td>payment status</td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach var="application" items="${applicationList}">
+                    <tr>
+                        <td>${application.id}</td>
+                        <td>${application.description}</td>
+                        <td>${application.date}</td>
+                        <td>${application.master.id}</td>
+                        <td>${application.completionStatus}</td>
+                        <td>${application.price}</td>
+                        <td>${application.paymentStatus}</td>
+                    </tr>
+                </c:forEach>
 
                 </tbody>
             </table>
-        <%--</c:otherwise>
+        </c:otherwise>
 
-    </c:choose>--%>
+    </c:choose>
 
 </div>
 
