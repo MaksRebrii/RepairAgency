@@ -2,18 +2,20 @@ package com.my.repairagency.repository;
 
 import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.exception.EncryptException;
+import com.my.repairagency.repository.dto.ApplicationDTO;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
+import com.my.repairagency.repository.entity.Application;
 import com.my.repairagency.repository.entity.User;
 import com.my.repairagency.web.utils.HashingPassword;
+import com.my.repairagency.web.utils.mapper.ApplicationMapper;
 import com.my.repairagency.web.utils.mapper.UserMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     private static final Logger logger = LogManager.getLogger(UserDAO.class);
@@ -109,6 +111,32 @@ public class UserDAO {
             throw new EncryptException("cannot add user");
         }
 
+    }
+
+    public List<User> getAllMasters() throws DAOException {
+        logger.trace("getAllMasters started");
+        List<User> result = new ArrayList<>();
+
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet =
+                     statement.executeQuery(SQLQuery.UserRequest.GET_ALL_MASTERS)) {
+
+            while (resultSet.next()) {
+                User user = UserMapper.getInstance().map(resultSet);
+                if (user.getId() == -1) {
+                    logger.warn("can't get master");
+                    throw new DAOException("Cannot get masters");
+                }
+                result.add(user);
+            }
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get masters");
+        }
+
+        return result;
     }
 
 }

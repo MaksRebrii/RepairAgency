@@ -9,6 +9,7 @@ import com.my.repairagency.web.utils.mapper.ApplicationMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,38 @@ public class ApplicationDAO {
             System.out.println(e.getMessage());
             logger.error(e.getMessage());
             throw new DAOException("Cannot add new application");
+        }
+    }
+
+    public void setMaster(int applicationId, int masterId) throws DAOException {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.SET_MASTER)) {
+            preparedStatement.setInt(1, masterId);
+            preparedStatement.setInt(2, applicationId);
+            if (preparedStatement.executeUpdate() != 1) {
+                logger.warn("Error during setting master  {} to application {}", masterId, applicationId);
+                throw new DAOException("Cannot set master to application");
+            }
+
+        } catch (SQLException throwables) {
+            logger.warn("Error during setting master  {} to application {}. Caused by {}", masterId, applicationId, throwables.getMessage());
+            throw new DAOException("Cannot set master to application");
+        }
+    }
+
+    public void setPrice(int applicationId, BigDecimal price) throws DAOException {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.SET_PRICE)) {
+            preparedStatement.setBigDecimal(1, price);
+            preparedStatement.setInt(2, applicationId);
+            if (preparedStatement.executeUpdate() != 1) {
+                logger.warn("Error during setting price  {} to application {}", price, applicationId);
+                throw new DAOException("Cannot set price to application");
+            }
+
+        } catch (SQLException throwables) {
+            logger.warn("Error during setting price  {} to application {}. Caused by {}", price, applicationId, throwables.getMessage());
+            throw new DAOException("Cannot set price to application");
         }
     }
 }

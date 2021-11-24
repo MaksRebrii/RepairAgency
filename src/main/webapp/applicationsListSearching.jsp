@@ -143,9 +143,55 @@
                         <td>${application.id}</td>
                         <td>${application.description}</td>
                         <td>${application.date}</td>
-                        <td>${application.master.id}</td>
+                        <td>
+
+                            <%--MASTER COLUMN--%>
+
+                            <c:choose>
+                                <c:when test="${application.master.id != 0}">
+                                    ${application.master.surname}
+                                </c:when>
+                                <c:otherwise>
+
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="setMaster">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+
+                                        <select class="select" name="masterId">
+                                            <option value="1" disabled>Master</option>
+                                            <c:forEach var="master" items="${masterList}">
+                                                <option value="${master.id}">${master.surname}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                                    </form>
+
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>${application.completionStatus}</td>
-                        <td>${application.price}</td>
+                        <td>
+                            <%--PRICE COLUMN--%>
+                            <c:choose>
+                                <c:when test="${not empty application.price}">
+                                    <div class="text-warning">${application.price}</div>
+                                </c:when>
+                                <c:otherwise>
+
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="setPrice">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+
+                                        <input type="number" min="0" name="price" step=".01" style="max-width: 60px">
+                                        <br>
+                                        <br>
+                                        <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                                    </form>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>${application.paymentStatus}</td>
                     </tr>
                 </c:forEach>
