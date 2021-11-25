@@ -71,8 +71,8 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" id="flexRadioDefault2" name="price">
                 <label class="form-check-label" for="flexRadioDefault2">
-                    <input type="number" min="0" max="" placeholder="min">
-                    <input type="number" min="0" max="" placeholder="max">
+                    <input type="number" min="0" placeholder="min" style="max-width: 100px">
+                    <input type="number" min="0" placeholder="max" style="max-width: 100px">
                 </label>
             </div>
 
@@ -91,8 +91,8 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" id="flexRadioDefault24" name="date">
                 <label class="form-check-label" for="flexRadioDefault2">
-                    <input type="date">
-                    <input type="date">
+                    <input type="date" style="max-width: 130px">
+                    <input type="date" style="max-width: 130px">
                 </label>
             </div>
 
@@ -113,7 +113,6 @@
         </div>
 
     </div>
-
 
 </div>
 
@@ -145,14 +144,16 @@
                         <td>${application.date}</td>
                         <td>
 
-                            <%--MASTER COLUMN--%>
+                                <%--MASTER COLUMN--%>
 
                             <c:choose>
                                 <c:when test="${application.master.id != 0}">
                                     ${application.master.surname}
                                 </c:when>
-                                <c:otherwise>
 
+                                <%-- WHEN CURRENT USER IS MANAGER--%>
+
+                                <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="setMaster">
                                         <input type="hidden" name="applicationId" value="${application.id}">
@@ -167,32 +168,87 @@
                                         <br>
                                         <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
                                     </form>
+                                </c:when>
 
+                                <c:otherwise>
+                                    <h6 class="text-danger">Master is not assigned</h6>
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td>${application.completionStatus}</td>
                         <td>
-                            <%--PRICE COLUMN--%>
+                            <%--COMPLETION STATUS--%>
+                                ${application.completionStatus}
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.role  eq 'MASTER'}">
+                                        <form action="controller" method="post">
+                                            <input type="hidden" name="command" value="changeCompletionStatus">
+                                            <input type="hidden" name="applicationId" value="${application.id}">
+
+                                            <select class="select_completion" name="completionStatus">
+                                                <option value="${application.completionStatus}">Not started</option>
+
+                                                <option value="NOT_STARTED">not started</option>
+                                                <option value="IN_WORK">in woek</option>
+                                                <option value="DONE">done</option>
+                                            </select>
+                                            <br>
+                                            <br>
+                                            <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                                        </form>
+                                    </c:when>
+                                </c:choose>
+                        </td>
+                        <td>
+                                <%--PRICE COLUMN--%>
                             <c:choose>
                                 <c:when test="${not empty application.price}">
                                     <div class="text-warning">${application.price}</div>
                                 </c:when>
-                                <c:otherwise>
 
+                                <%-- WHEN CURRENT USER IS MANAGER--%>
+
+                                <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="setPrice">
                                         <input type="hidden" name="applicationId" value="${application.id}">
 
-                                        <input type="number" min="0" name="price" step=".01" style="max-width: 60px">
+                                        <input type="number" min="0" name="price" step=".01" style="max-width: 100px">
                                         <br>
                                         <br>
                                         <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
                                     </form>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <h6 class="text-danger">Price is not set</h6>
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td>${application.paymentStatus}</td>
+
+                        <td>
+                                <%--PAYMENT STATUS--%>
+                                ${application.paymentStatus}
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="changePaymentStatus">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+
+                                        <select class="select_payment" name="paymentStatus">
+                                            <option value="${application.paymentStatus}">Waiting for payment</option>
+
+                                            <option value="WAITING_FOR_PAYMENT">waiting</option>
+                                            <option value="PAID">paid</option>
+                                            <option value="CANCELED">canceled</option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                                    </form>
+                                </c:when>
+                            </c:choose>
+
+                        </td>
                     </tr>
                 </c:forEach>
 
@@ -205,5 +261,6 @@
 </div>
 
 <%@include file="WEB-INF/includes/footer-links.jsp" %>
+<%@include file="WEB-INF/includes/activeOptionInSelection.js"%>
 </body>
 </html>
