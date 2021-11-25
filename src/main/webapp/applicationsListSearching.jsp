@@ -179,14 +179,13 @@
                             <%--COMPLETION STATUS--%>
                                 ${application.completionStatus}
                                 <c:choose>
-                                    <c:when test="${sessionScope.user.role  eq 'MASTER'}">
+                                    <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
                                         <form action="controller" method="post">
                                             <input type="hidden" name="command" value="changeCompletionStatus">
                                             <input type="hidden" name="applicationId" value="${application.id}">
 
                                             <select class="select_completion" name="completionStatus">
-                                                <option value="${application.completionStatus}">Not started</option>
-
+                                                <option value="${application.completionStatus}1" hidden></option>
                                                 <option value="NOT_STARTED">not started</option>
                                                 <option value="IN_WORK">in woek</option>
                                                 <option value="DONE">done</option>
@@ -235,7 +234,7 @@
                                         <input type="hidden" name="applicationId" value="${application.id}">
 
                                         <select class="select_payment" name="paymentStatus">
-                                            <option value="${application.paymentStatus}">Waiting for payment</option>
+                                            <option value="${application.paymentStatus}1" hidden></option>
 
                                             <option value="WAITING_FOR_PAYMENT">waiting</option>
                                             <option value="PAID">paid</option>
