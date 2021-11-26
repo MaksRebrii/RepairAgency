@@ -5,6 +5,9 @@ import com.my.repairagency.repository.dto.ApplicationCreateRequestDTO;
 import com.my.repairagency.repository.dto.ApplicationDTO;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
 import com.my.repairagency.repository.entity.Application;
+import com.my.repairagency.repository.entity.CompletionStatus;
+import com.my.repairagency.repository.entity.PaymentStatus;
+import com.my.repairagency.repository.entity.Role;
 import com.my.repairagency.web.utils.mapper.ApplicationMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,23 +43,8 @@ public class ApplicationDAO {
              ResultSet resultSet =
                      statement.executeQuery(SQLQuery.ApplicationRequest.GET_ALL_APPLICATIONS)) {
 
-            while (resultSet.next()) {
-                Application application = ApplicationMapper.getInstance().map(resultSet);
-                UserWithRoleDTO client = UserDAO.getInstance().getUserById(application.getClientId());
-                UserWithRoleDTO master;
-                if (application.getMasterId() == 0) {
-                    master = new UserWithRoleDTO();
-                } else {
-                    master = UserDAO.getInstance().getUserById(application.getMasterId());
-                }
-                if (client.getId() == -1 || master.getId() == -1) {
-                    logger.warn("can't get application's client or master App id: {} Expected Client id: {} Master id {} But was:  Client id: {} Master id {}",
-                            application.getId(), application.getClientId(), application.getMasterId(), client.getId(), master.getId());
-                    throw new DAOException("Cannot get applications");
-                }
-                ApplicationDTO applicationDTO = new ApplicationDTO(application, client, master);
-                result.add(applicationDTO);
-            }
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
         } catch (SQLException e) {
             logger.warn("error while getting application. Caused by {}", e.getMessage());
             throw new DAOException("Cannot get applications");
@@ -66,6 +54,7 @@ public class ApplicationDAO {
     }
 
     public void addApplication(ApplicationCreateRequestDTO application) throws DAOException {
+        logger.trace("addApplication started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(SQLQuery.ApplicationRequest.INSERT_NEW_APPLICATION)) {
@@ -83,6 +72,7 @@ public class ApplicationDAO {
     }
 
     public void setMaster(int applicationId, int masterId) throws DAOException {
+        logger.trace("setMaster started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.SET_MASTER)) {
             preparedStatement.setInt(1, masterId);
@@ -99,10 +89,13 @@ public class ApplicationDAO {
     }
 
     public void setPrice(int applicationId, BigDecimal price) throws DAOException {
+        logger.trace("setPrice started");
+
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.SET_PRICE)) {
             preparedStatement.setBigDecimal(1, price);
             preparedStatement.setInt(2, applicationId);
+
             if (preparedStatement.executeUpdate() != 1) {
                 logger.warn("Error during setting price  {} to application {}", price, applicationId);
                 throw new DAOException("Cannot set price to application");
@@ -112,5 +105,72 @@ public class ApplicationDAO {
             logger.warn("Error during setting price  {} to application {}. Caused by {}", price, applicationId, throwables.getMessage());
             throw new DAOException("Cannot set price to application");
         }
+    }
+
+    public void changeCompletionStatus(int applicationId, CompletionStatus completionStatus) throws DAOException {
+        logger.trace("changeCompletionStatus started");
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.CHANGE_COMPLETION_STATUS)) {
+
+            preparedStatement.setString(1, completionStatus.toString());
+            preparedStatement.setInt(2, applicationId);
+
+            if (preparedStatement.executeUpdate() != 1) {
+                logger.warn("Error during changing completion status  {} to application {}", completionStatus, applicationId);
+                throw new DAOException("Cannot change completion status application");
+            }
+
+        } catch (SQLException throwables) {
+            logger.warn("Error during changing completion status  {} to application {}. Caused by {}", completionStatus, applicationId, throwables.getMessage());
+            throw new DAOException("Cannot change completion status to application");
+        }
+    }
+
+    public void changePaymentStatus(int applicationId, PaymentStatus paymentStatus) throws DAOException {
+        logger.trace("changePaymentStatus started");
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.CHANGE_PAYMENT_STATUS)) {
+
+            preparedStatement.setString(1, paymentStatus.toString());
+            preparedStatement.setInt(2, applicationId);
+
+            if (preparedStatement.executeUpdate() != 1) {
+                logger.warn("Error during changing payment status  {} to application {}", paymentStatus, applicationId);
+                throw new DAOException("Cannot change payment status application");
+            }
+
+        } catch (SQLException throwables) {
+            logger.warn("Error during changing payment status  {} to application {}. Caused by {}", paymentStatus, applicationId, throwables.getMessage());
+            throw new DAOException("Cannot change payment status to application");
+        }
+    }
+
+    public List<ApplicationDTO> getAllUserApplication(UserWithRoleDTO user) throws DAOException {
+        logger.trace("getAllUserApplication started");
+        String query = null;
+        List<ApplicationDTO> result = new ArrayList<>();
+
+        if (Role.MASTER.equals(user.getRole())) {
+                query = SQLQuery.ApplicationRequest.GET_ALL_MASTER_APPLICATIONS;
+        }
+        else{
+            query = SQLQuery.ApplicationRequest.GET_ALL_CUSTOMER_APPLICATIONS;
+        }
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+
+            preparedStatement.setInt(1, user.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get applications");
+        }
+
+        return result;
     }
 }

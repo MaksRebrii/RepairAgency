@@ -28,12 +28,11 @@ public class ChangeCompletionStatusCommand implements Command {
         String referer = "error.jsp";
         try {
             referer = new URI(req.getHeader("referer")).getPath();
-            referer = referer.concat("?command=getAllApplications");
+            referer = referer.concat("?command=getApplicationsByUserId");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         return referer;
 
-        //TODO change command to get all masters applications
     }
 }

@@ -142,10 +142,11 @@
                         <td>${application.id}</td>
                         <td>${application.description}</td>
                         <td>${application.date}</td>
+
+
+                            <%--MASTER COLUMN--%>
+
                         <td>
-
-                                <%--MASTER COLUMN--%>
-
                             <c:choose>
                                 <c:when test="${application.master.id != 0}">
                                     ${application.master.surname}
@@ -175,11 +176,12 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td>
+
                             <%--COMPLETION STATUS--%>
-                                ${application.completionStatus}
+
+                        <td>
                                 <c:choose>
-                                    <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
+                                    <c:when test="${sessionScope.user.role  eq 'MASTER'}">
                                         <form action="controller" method="post">
                                             <input type="hidden" name="command" value="changeCompletionStatus">
                                             <input type="hidden" name="applicationId" value="${application.id}">
@@ -195,10 +197,17 @@
                                             <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
                                         </form>
                                     </c:when>
+
+                                    <c:otherwise>
+                                        ${application.completionStatus}
+                                    </c:otherwise>
                                 </c:choose>
                         </td>
+
+                        <%--PRICE COLUMN--%>
+
                         <td>
-                                <%--PRICE COLUMN--%>
+
                             <c:choose>
                                 <c:when test="${not empty application.price}">
                                     <div class="text-warning">${application.price}</div>
@@ -224,9 +233,9 @@
                             </c:choose>
                         </td>
 
+                        <%--PAYMENT STATUS--%>
+
                         <td>
-                                <%--PAYMENT STATUS--%>
-                                ${application.paymentStatus}
                             <c:choose>
                                 <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
                                     <form action="controller" method="post">
@@ -236,7 +245,7 @@
                                         <select class="select_payment" name="paymentStatus">
                                             <option value="${application.paymentStatus}1" hidden></option>
 
-                                            <option value="WAITING_FOR_PAYMENT">waiting</option>
+                                            <option value="WAITING_FOR_PAYMENT">waiting for payment</option>
                                             <option value="PAID">paid</option>
                                             <option value="CANCELED">canceled</option>
                                         </select>
@@ -245,6 +254,10 @@
                                         <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
                                     </form>
                                 </c:when>
+
+                                <c:otherwise>
+                                    ${application.paymentStatus}
+                                </c:otherwise>
                             </c:choose>
 
                         </td>

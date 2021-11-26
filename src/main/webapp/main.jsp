@@ -11,7 +11,18 @@
 <h3>Welcome</h3>
 <a href="${pageContext.request.contextPath}/register.jsp">register New User</a><br>
 <a href="${pageContext.request.contextPath}/newApplication.jsp">new Application</a><br>
-<a href="${pageContext.request.contextPath}/controller?command=getAllApplications">Application's list</a>
+
+<c:choose>
+    <c:when test="${sessionScope.user.role  eq 'MANAGER' or 'ADMIN'}">
+        <a href="${pageContext.request.contextPath}/controller?command=getAllApplications">Application's list</a>
+    </c:when>
+
+    <c:otherwise>
+        <a href="${pageContext.request.contextPath}/controller?command=getApplicationsByUserId">Application's list</a>
+    </c:otherwise>
+
+
+</c:choose>
 <hr/>
 ${sessionScope.user.role} ${sessionScope.user.name}, hello!
 <hr/>
