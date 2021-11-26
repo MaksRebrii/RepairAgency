@@ -26,12 +26,12 @@ public class RoleMapper implements EntityMapper<Role> {
 
     @Override
     public Role map(ResultSet rs) throws SQLException {
-        logger.trace("Role mapping started");
+        /*logger.trace("Role mapping started");
         Role role = new Role();
         role.setId(-1);
         role.setId(rs.getInt(ID));
         role.setTitle(rs.getString(title));
-        logger.debug("mapped role: {}", role);
-        return role;
+        logger.debug("mapped role: {}", role);*/
+        return null;
     }
 }

@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS application
     client_id          INTEGER NOT NULL,
     master_id          INTEGER,
     date TIMESTAMP NOT NULL ,
-    completion_status VARCHAR(63),
-    payment_status VARCHAR(63),
+    completion_status VARCHAR(63) DEFAULT 'NOT_STARTED',
+    payment_status VARCHAR(63) DEFAULT 'WAITING_FOR_PAYMENT',
     application_description VARCHAR(255),
     application_price  DECIMAL(8, 2),
     application_review VARCHAR(511),
@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS application
 
 
 INSERT INTO user_role
-VALUES (DEFAULT, 'admin'),
-       (DEFAULT, 'manager'),
-       (DEFAULT, 'master'),
-       (DEFAULT, 'userWithRoleDTO');
+VALUES (DEFAULT, 'ADMIN'),
+       (DEFAULT, 'MANAGER'),
+       (DEFAULT, 'MASTER'),
+       (DEFAULT, 'CLIENT');
 
 INSERT INTO users
 VALUES (DEFAULT, 1, 'admin', 'admin', 'admin@gmail.com', 'd+sYTsy7/EPLsyaYCsD8QKxSfrJQhU4hk7N14rc2A7I=$pFeKrhPXvX8xyVpQ6hhw8ACiAgdooCGneWUx0Ivb1QY=', DEFAULT);

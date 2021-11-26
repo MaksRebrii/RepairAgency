@@ -1,6 +1,8 @@
 package com.my.repairagency.repository.dto;
 
 import com.my.repairagency.repository.entity.Application;
+import com.my.repairagency.repository.entity.CompletionStatus;
+import com.my.repairagency.repository.entity.PaymentStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,8 +16,8 @@ public class ApplicationDTO implements Serializable {
     private UserWithRoleDTO client;
     private UserWithRoleDTO master;
     private Timestamp date;
-    private String completionStatus;
-    private String paymentStatus;
+    private CompletionStatus completionStatus;
+    private PaymentStatus paymentStatus;
     private String description;
     private BigDecimal price;
     private String review;
@@ -90,19 +92,19 @@ public class ApplicationDTO implements Serializable {
         this.date = date;
     }
 
-    public String getCompletionStatus() {
+    public CompletionStatus getCompletionStatus() {
         return completionStatus;
     }
 
-    public void setCompletionStatus(String completionStatus) {
+    public void setCompletionStatus(CompletionStatus completionStatus) {
         this.completionStatus = completionStatus;
     }
 
-    public String getPaymentStatus() {
+    public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 

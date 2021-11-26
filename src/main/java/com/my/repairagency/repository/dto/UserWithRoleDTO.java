@@ -1,6 +1,8 @@
 package com.my.repairagency.repository.dto;
 
 
+import com.my.repairagency.repository.entity.Role;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -9,7 +11,7 @@ import java.math.BigDecimal;
  */
 public class UserWithRoleDTO implements Serializable {
     private int id;
-    private String role;
+    private Role role;
     private String name;
     private String surname;
     private String email;
@@ -19,12 +21,12 @@ public class UserWithRoleDTO implements Serializable {
     public UserWithRoleDTO() {
     }
 
-    public UserWithRoleDTO(int userId, String userRole, String userName, String surname, String userEmail, String password, BigDecimal account) {
-        this.id = userId;
-        this.role = userRole;
-        this.name = userName;
+    public UserWithRoleDTO(int id, Role role, String name, String surname, String email, String password, BigDecimal account) {
+        this.id = id;
+        this.role = role;
+        this.name = name;
         this.surname = surname;
-        this.email = userEmail;
+        this.email = email;
         this.password = password;
         this.account = account;
     }
@@ -37,11 +39,11 @@ public class UserWithRoleDTO implements Serializable {
         this.id = id;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

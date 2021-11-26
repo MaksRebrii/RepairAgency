@@ -1,6 +1,7 @@
 package com.my.repairagency.web.utils.mapper;
 
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
+import com.my.repairagency.repository.entity.Role;
 import com.my.repairagency.repository.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,14 +41,14 @@ public class UserMapper implements EntityMapper<User> {
         logger.trace("user mapping started");
         User user = new User();
         user.setId(-1);
-        if (rs.next()) {
-            user.setId(rs.getInt(ID));
-            user.setName(rs.getString(NAME));
-            user.setSurname(rs.getString(SURNAME));
-            user.setEmail(rs.getString(EMAIL));
-            user.setAccount(rs.getBigDecimal(ACCOUNT));
-            user.setRoleId(rs.getInt(ROLE_ID));
-        }
+
+        user.setId(rs.getInt(ID));
+        user.setName(rs.getString(NAME));
+        user.setSurname(rs.getString(SURNAME));
+        user.setEmail(rs.getString(EMAIL));
+        user.setAccount(rs.getBigDecimal(ACCOUNT));
+        user.setRoleId(rs.getInt(ROLE_ID));
+
         logger.debug("mapped user: {}", user);
         return user;
     }
@@ -62,7 +63,7 @@ public class UserMapper implements EntityMapper<User> {
         userWithRoleDTO.setEmail(rs.getString(EMAIL));
         userWithRoleDTO.setPassword(rs.getString(PASSWORD));
         userWithRoleDTO.setAccount(rs.getBigDecimal(ACCOUNT));
-        userWithRoleDTO.setRole(rs.getString(TITLE));
+        userWithRoleDTO.setRole(Role.valueOf(rs.getString(TITLE)));
 
         logger.debug("mapped user with role: {}", userWithRoleDTO);
         return userWithRoleDTO;

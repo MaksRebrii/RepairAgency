@@ -12,8 +12,8 @@ public class Application implements Serializable {
     private int clientId;
     private int masterId;
     private Timestamp date;
-    private String completionStatus;
-    private String paymentStatus;
+    private CompletionStatus completionStatus;
+    private PaymentStatus paymentStatus;
     private String description;
     private BigDecimal price;
     private String review;
@@ -21,7 +21,9 @@ public class Application implements Serializable {
     public Application() {
     }
 
-    public Application(int id, int clientId, int masterId, Timestamp date, String completionStatus, String paymentStatus, String description, BigDecimal price, String review) {
+    public Application(int id, int clientId, int masterId, Timestamp date,
+                       CompletionStatus completionStatus, PaymentStatus paymentStatus,
+                       String description, BigDecimal price, String review) {
         this.id = id;
         this.clientId = clientId;
         this.masterId = masterId;
@@ -65,19 +67,19 @@ public class Application implements Serializable {
         this.date = date;
     }
 
-    public String getCompletionStatus() {
+    public CompletionStatus getCompletionStatus() {
         return completionStatus;
     }
 
-    public void setCompletionStatus(String completionStatus) {
+    public void setCompletionStatus(CompletionStatus completionStatus) {
         this.completionStatus = completionStatus;
     }
 
-    public String getPaymentStatus() {
+    public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 

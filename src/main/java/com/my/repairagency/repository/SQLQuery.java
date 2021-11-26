@@ -21,6 +21,8 @@ public class SQLQuery {
         public static final String GET_ALL_CUSTOMER_APPLICATIONS = "SELECT * FROM application WHERE client_id = ?";
         public static final String GET_ALL_MASTER_APPLICATIONS = "SELECT * FROM application WHERE master_id = ?";
         public static final String SET_PRICE = "UPDATE application SET application_price=? WHERE application_id=?";
+        public static final String CHANGE_COMPLETION_STATUS = "UPDATE application SET completion_status=? WHERE application_id=?";
+        public static final String CHANGE_PAYMENT_STATUS = "UPDATE application SET payment_status=? WHERE application_id=?";
 
         public static final String SET_MASTER = "UPDATE application SET master_id=? WHERE application_id=?";
     }

@@ -1,6 +1,8 @@
 package com.my.repairagency.web.utils.mapper;
 
 import com.my.repairagency.repository.entity.Application;
+import com.my.repairagency.repository.entity.CompletionStatus;
+import com.my.repairagency.repository.entity.PaymentStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,8 +47,8 @@ public class ApplicationMapper implements EntityMapper<Application> {
         application.setPrice(rs.getBigDecimal(PRICE));
         application.setReview(rs.getString(REVIEW));
         application.setDate(rs.getTimestamp(Date));
-        application.setPaymentStatus(rs.getString(PAYMENT_STATUS));
-        application.setCompletionStatus(rs.getString(COMPLETION_STATUS));
+        application.setPaymentStatus(PaymentStatus.valueOf(rs.getString(PAYMENT_STATUS)));
+        application.setCompletionStatus(CompletionStatus.valueOf(rs.getString(COMPLETION_STATUS)));
 
         logger.debug("mapped application: {}", application);
         return application;
