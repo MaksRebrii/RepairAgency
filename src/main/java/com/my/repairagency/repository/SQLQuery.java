@@ -8,7 +8,7 @@ public class SQLQuery {
         public static final String GET_USER_WITH_ROLE_BY_ID = "SELECT * FROM users JOIN user_role USING (user_role_id) WHERE user_id =?";
         //public static final String GET_USER_BY_SURNAME = "SELECT * FROM  users JOIN user_role USING (user_role_id) WHERE ";
         public static final String ADD_NEW_USER = "INSERT INTO users (user_role_id, user_name, user_surname, user_email, user_password) VALUES (?, ?, ?, ?, ?)";
-        public static final String GET_ALL_MASTERS = "SELECT * FROM users JOIN user_role USING (user_role_id) WHERE user_role_title = 'master'";
+        public static final String GET_ALL_MASTERS = "SELECT * FROM users JOIN user_role USING (user_role_id) WHERE user_role_title = 'MASTER'";
     }
 
     static class RoleRequest {

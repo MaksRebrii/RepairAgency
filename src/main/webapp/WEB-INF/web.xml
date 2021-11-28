@@ -18,4 +18,8 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
+
+    <request-character-encoding>
+        UTF-8
+    </request-character-encoding>
 </web-app>

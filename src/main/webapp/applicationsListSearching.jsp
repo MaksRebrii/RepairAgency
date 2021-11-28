@@ -246,7 +246,7 @@
                                             <option value="${application.paymentStatus}1" hidden></option>
 
                                             <option value="WAITING_FOR_PAYMENT">waiting for payment</option>
-                                            <option value="PAID">paid</option>
+                                            <option value="PAID" <c:if test="${empty application.price}">disabled</c:if>>paid</option>
                                             <option value="CANCELED">canceled</option>
                                         </select>
                                         <br>
@@ -271,6 +271,16 @@
     </c:choose>
 
 </div>
+
+<nav aria-label="Navigation for applications">
+    <ul class="pagination justify-content-end">
+        <li class="page-item"><a href="#" class="page-link">&lsaquo;&lsaquo;</a></li>
+        <li class="page-item active" ><a href="#" class="page-link">1</a></li>
+        <li class="page-item"><a href="#" class="page-link">2</a></li>
+        <li class="page-item"><a href="#" class="page-link">3</a></li>
+        <li class="page-item"><a href="#" class="page-link">&rsaquo;&rsaquo;</a></li>
+    </ul>
+</nav>
 
 <%@include file="WEB-INF/includes/footer-links.jsp" %>
 <%@include file="WEB-INF/includes/activeOptionInSelection.js"%>

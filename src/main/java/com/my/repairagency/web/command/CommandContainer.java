@@ -18,7 +18,6 @@ public class CommandContainer {
         commands.put("setPrice", new SetPriceCommand());
         commands.put("changePaymentStatus", new ChangePaymentStatusCommand());
         commands.put("changeCompletionStatus", new ChangeCompletionStatusCommand());
-        commands.put("getApplicationsByUserId", new GetApplicationsByUserIdCommand());
     }
 
     private CommandContainer(){}

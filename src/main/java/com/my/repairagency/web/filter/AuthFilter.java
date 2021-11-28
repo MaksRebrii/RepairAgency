@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-//TODO rewrite filter
-//@WebFilter("/*")
+
+@WebFilter("/*")
 public class AuthFilter implements Filter {
 
     private static final Logger logger = LogManager.getLogger(AuthFilter.class);
@@ -21,9 +21,14 @@ public class AuthFilter implements Filter {
         final HttpServletRequest req = (HttpServletRequest) servletRequest;
         final HttpServletResponse res = (HttpServletResponse) servletResponse;
         final HttpSession session = req.getSession();
+        final String command = req.getParameter("command");
 
-        if (session != null && session.getAttribute("user") == null)
-            //req.getRequestDispatcher("login.jsp").forward(req, res);
+        if (session != null && session.getAttribute("user") == null
+                && !"login".equals(command)){
+            req.getSession().setAttribute("error", "Sorry,  you have to be authorized to have access to the resource.");
+            req.getRequestDispatcher("login.jsp").forward(req, res);
+        }
+
 
         filterChain.doFilter(servletRequest, servletResponse);
     }

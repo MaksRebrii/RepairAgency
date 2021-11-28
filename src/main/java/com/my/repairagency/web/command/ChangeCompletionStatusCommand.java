@@ -28,7 +28,7 @@ public class ChangeCompletionStatusCommand implements Command {
         String referer = "error.jsp";
         try {
             referer = new URI(req.getHeader("referer")).getPath();
-            referer = referer.concat("?command=getApplicationsByUserId");
+            referer = referer.concat("?command=getApplications");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
