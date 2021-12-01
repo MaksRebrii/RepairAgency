@@ -18,6 +18,12 @@ public class CommandContainer {
         commands.put("setPrice", new SetPriceCommand());
         commands.put("changePaymentStatus", new ChangePaymentStatusCommand());
         commands.put("changeCompletionStatus", new ChangeCompletionStatusCommand());
+        commands.put("cancelApplication", new CancelApplicationCommand());
+        commands.put("editApplication", new EditApplicationCommand());
+        commands.put("filterByCompletionStatus", new FilterByCompletionStatusCommand());
+        commands.put("filterByPaymentStatus", new FilterByPaymentStatusCommand());
+        commands.put("filterByPrice", new FilterByPriceCommand());
+        commands.put("filterByDate", new FilterByDateCommand());
     }
 
     private CommandContainer(){}

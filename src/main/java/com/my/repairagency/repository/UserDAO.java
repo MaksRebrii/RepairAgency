@@ -2,12 +2,9 @@ package com.my.repairagency.repository;
 
 import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.exception.EncryptException;
-import com.my.repairagency.repository.dto.ApplicationDTO;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
-import com.my.repairagency.repository.entity.Application;
 import com.my.repairagency.repository.entity.User;
-import com.my.repairagency.web.utils.HashingPassword;
-import com.my.repairagency.web.utils.mapper.ApplicationMapper;
+import com.my.repairagency.web.utils.PasswordUtil;
 import com.my.repairagency.web.utils.mapper.UserMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,7 +97,7 @@ public class UserDAO {
             preparedStatement.setString(k++, user.getName());
             preparedStatement.setString(k++, user.getSurname());
             preparedStatement.setString(k++, user.getEmail());
-            preparedStatement.setString(k, HashingPassword.getSaltedHash(user.getPassword()));
+            preparedStatement.setString(k, PasswordUtil.getSaltedHash(user.getPassword()));
             int res = preparedStatement.executeUpdate();
             System.out.println(res);
         } catch (SQLException e) {

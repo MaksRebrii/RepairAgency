@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 
 public class CreateApplicationCommand implements Command {
@@ -29,6 +31,13 @@ public class CreateApplicationCommand implements Command {
 
         ApplicationDAO.getInstance().addApplication(application);
 
-        return "main.jsp";
+        String referer = "error.jsp";
+        try {
+            referer = new URI(req.getHeader("referer")).getPath();
+            referer = referer.concat("?command=getAllApplications");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return referer;
     }
 }

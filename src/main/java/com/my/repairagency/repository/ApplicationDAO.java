@@ -4,7 +4,6 @@ import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.repository.dto.ApplicationCreateRequestDTO;
 import com.my.repairagency.repository.dto.ApplicationDTO;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
-import com.my.repairagency.repository.entity.Application;
 import com.my.repairagency.repository.entity.CompletionStatus;
 import com.my.repairagency.repository.entity.PaymentStatus;
 import com.my.repairagency.repository.entity.Role;
@@ -153,9 +152,8 @@ public class ApplicationDAO {
         List<ApplicationDTO> result = new ArrayList<>();
 
         if (Role.MASTER.equals(user.getRole())) {
-                query = SQLQuery.ApplicationRequest.GET_ALL_MASTER_APPLICATIONS;
-        }
-        else{
+            query = SQLQuery.ApplicationRequest.GET_ALL_MASTER_APPLICATIONS;
+        } else {
             query = SQLQuery.ApplicationRequest.GET_ALL_CUSTOMER_APPLICATIONS;
         }
 
@@ -164,6 +162,123 @@ public class ApplicationDAO {
 
             preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get applications");
+        }
+
+        return result;
+    }
+
+    public void cancelApplication(int applicationId) throws DAOException {
+        logger.trace("cancelApplicationStarted");
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.CANCEL)) {
+
+            preparedStatement.setInt(1, applicationId);
+
+            if (preparedStatement.executeUpdate() != 1) {
+                logger.warn("Error during canceling   application {}", applicationId);
+                throw new DAOException("Cannot cancel application");
+            }
+
+
+        } catch (SQLException throwables) {
+            logger.warn("Error during canceling   application {}", applicationId);
+            throw new DAOException("Cannot cancel application");
+        }
+    }
+
+
+    public List<ApplicationDTO> getAllApplicationsByCompletionStatuses(String[] statuses) throws DAOException {
+        logger.trace("getAllApplicationsByStatuses started");
+        List<ApplicationDTO> result = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder(SQLQuery.ApplicationRequest.GET_ALL_WHERE_TEMPLATE);
+
+        query.append("completion_status = '").append(statuses[0]).append("'");
+
+        for (int i = 1; i < statuses.length; i++) {
+            query.append(" or ").append(" completion_status = '").append(statuses[i]).append("'");
+        }
+        logger.debug("request {}", query);
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet =
+                     statement.executeQuery(query.toString())) {
+
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get applications");
+        }
+
+        return result;
+    }
+
+    public List<ApplicationDTO> getAllApplicationsByPaymentStatuses(String[] statuses) throws DAOException {
+        logger.trace("getAllApplicationsByStatuses started");
+        List<ApplicationDTO> result;
+
+        StringBuilder query = new StringBuilder(SQLQuery.ApplicationRequest.GET_ALL_WHERE_TEMPLATE);
+
+        query.append("payment_status = '").append(statuses[0]).append("'");
+
+        for (int i = 1; i < statuses.length; i++) {
+            query.append(" or ").append(" payment_status = '").append(statuses[i]).append("'");
+        }
+        logger.debug("request {}", query);
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet =
+                     statement.executeQuery(query.toString())) {
+
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get applications");
+        }
+
+        return result;
+    }
+
+    public List<ApplicationDTO> getAllApplicationsByPrice(int minValue, int maxValue) throws DAOException {
+        List<ApplicationDTO> result;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQuery.ApplicationRequest.GET_ALL_BY_PRICE_RANGE)) {
+
+            statement.setInt(1, minValue);
+            statement.setInt(2, maxValue);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get applications");
+        }
+
+        return result;
+    }
+
+    public List<ApplicationDTO> getAllApplicationsByDate(String minValue, String maxValue) throws DAOException {
+        List<ApplicationDTO> result;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQuery.ApplicationRequest.GET_ALL_BY_DATE_RANGE)) {
+
+            statement.setString(1, minValue);
+            statement.setString(2, maxValue);
+
+            ResultSet resultSet = statement.executeQuery();
+
             result = ApplicationMapper.getInstance().mapApplications(resultSet);
 
         } catch (SQLException e) {

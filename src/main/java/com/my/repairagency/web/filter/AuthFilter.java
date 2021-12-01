@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/*")
+//TODO RERITE FILTRER
+
+//@WebFilter("/*")
 public class AuthFilter implements Filter {
 
     private static final Logger logger = LogManager.getLogger(AuthFilter.class);
@@ -25,7 +27,7 @@ public class AuthFilter implements Filter {
 
         if (session != null && session.getAttribute("user") == null
                 && !"login".equals(command)){
-            req.getSession().setAttribute("error", "Sorry,  you have to be authorized to have access to the resource.");
+            /*req.getSession().setAttribute("error", "Sorry,  you have to be authorized to have access to the resource.");*/
             req.getRequestDispatcher("login.jsp").forward(req, res);
         }
 

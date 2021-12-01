@@ -3,7 +3,6 @@ package com.my.repairagency.web.command;
 import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.exception.EncryptException;
 import com.my.repairagency.repository.ApplicationDAO;
-import com.my.repairagency.repository.entity.CompletionStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,18 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-
-public class ChangeCompletionStatusCommand implements Command {
-
-    private static final Logger logger = LogManager.getLogger(ChangeCompletionStatusCommand.class);
+public class EditApplicationCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(EditApplicationCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("Command start");
 
         final int applicationId = Integer.parseInt(req.getParameter("applicationId"));
-        final CompletionStatus  completionStatus = CompletionStatus.valueOf(req.getParameter("completionStatus"));
-        ApplicationDAO.getInstance().changeCompletionStatus(applicationId, completionStatus);
+        /*ApplicationDAO.getInstance().editApplication(applicationId);*/
 
         String referer = "error.jsp";
         try {
@@ -33,6 +29,5 @@ public class ChangeCompletionStatusCommand implements Command {
             e.printStackTrace();
         }
         return referer;
-
     }
 }

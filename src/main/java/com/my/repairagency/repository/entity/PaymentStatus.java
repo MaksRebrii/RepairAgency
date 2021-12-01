@@ -1,11 +1,12 @@
 package com.my.repairagency.repository.entity;
 
 public enum PaymentStatus {
-    WAITING_FOR_PAYMENT("waiting for payment"),
-    PAID("paid"),
-    CANCELED("canceled");
+    AWAITING_PROCESSING/*("awaiting processing")*/,
+    WAITING_FOR_PAYMENT/*("waiting for payment")*/,
+    PAID/*("paid")*/,
+    CANCELED/*("canceled")*/;
 
-    private final String status;
+    /*private final String status;
 
     PaymentStatus(String status) {
         this.status = status;
@@ -21,5 +22,5 @@ public enum PaymentStatus {
                 return ps;
         }
         return null;
-    }
+    }*/
 }

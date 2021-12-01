@@ -22,7 +22,7 @@ public class ApplicationMapper implements EntityMapper<Application> {
     private static final String ID = "application_id";
     private static final String CLIENT_ID = "client_id";
     private static final String MASTER_ID = "master_id";
-    private static final String Date = "date";
+    private static final String DATE = "date";
     private static final String COMPLETION_STATUS = "completion_status";
     private static final String PAYMENT_STATUS = "payment_status";
 
@@ -52,7 +52,7 @@ public class ApplicationMapper implements EntityMapper<Application> {
         application.setDescription(resultSet.getString(DESCRIPTION));
         application.setPrice(resultSet.getBigDecimal(PRICE));
         application.setReview(resultSet.getString(REVIEW));
-        application.setDate(resultSet.getTimestamp(Date));
+        application.setDate(resultSet.getTimestamp(DATE));
         application.setPaymentStatus(PaymentStatus.valueOf(resultSet.getString(PAYMENT_STATUS)));
         application.setCompletionStatus(CompletionStatus.valueOf(resultSet.getString(COMPLETION_STATUS)));
 

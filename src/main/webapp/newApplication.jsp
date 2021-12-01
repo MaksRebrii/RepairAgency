@@ -10,7 +10,7 @@
 <p>Please enter as accurate a description of the problem you want to solve as possible</p><br>
 <form action="controller" method="post">
     <input type="hidden" name="command" value="newApplication">
-    <textarea name="description" cols="100" rows="10" required></textarea>
+    <textarea name="description" cols="100" rows="10" required maxlength="1000"></textarea>
     <p><input type="submit" value="Send">
 </form>
 

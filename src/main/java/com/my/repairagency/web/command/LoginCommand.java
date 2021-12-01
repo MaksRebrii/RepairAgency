@@ -5,7 +5,7 @@ import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.exception.EncryptException;
 import com.my.repairagency.repository.UserDAO;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
-import com.my.repairagency.web.utils.HashingPassword;
+import com.my.repairagency.web.utils.PasswordUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,7 @@ public class LoginCommand implements Command {
         final String password = req.getParameter("password");
 
         UserWithRoleDTO user = UserDAO.getInstance().getUserByLogin(email);
-        if(user.getId() == -1 || !HashingPassword.check(password, user.getPassword())){
+        if(user.getId() == -1 || !PasswordUtil.check(password, user.getPassword())){
             req.getSession().setAttribute("error", "Unknown login or password try again.");
             return "login.jsp";
         }

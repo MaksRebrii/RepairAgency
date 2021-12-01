@@ -16,14 +16,18 @@ public class SQLQuery {
     }
 
     static class ApplicationRequest {
-        public static final String GET_ALL_APPLICATIONS = "SELECT * FROM application";
         public static final String INSERT_NEW_APPLICATION = "INSERT INTO  application (client_id, date, application_description) VALUES (?, ?, ?)";
-        public static final String GET_ALL_CUSTOMER_APPLICATIONS = "SELECT * FROM application WHERE client_id = ?";
-        public static final String GET_ALL_MASTER_APPLICATIONS = "SELECT * FROM application WHERE master_id = ?";
+        public static final String GET_ALL_APPLICATIONS = "SELECT * FROM application ORDER BY application_id";
+        public static final String GET_ALL_CUSTOMER_APPLICATIONS = "SELECT * FROM application WHERE client_id = ? ORDER BY application_id";
+        public static final String GET_ALL_MASTER_APPLICATIONS = "SELECT * FROM application WHERE master_id = ? ORDER BY application_id";
         public static final String SET_PRICE = "UPDATE application SET application_price=? WHERE application_id=?";
         public static final String CHANGE_COMPLETION_STATUS = "UPDATE application SET completion_status=? WHERE application_id=?";
         public static final String CHANGE_PAYMENT_STATUS = "UPDATE application SET payment_status=? WHERE application_id=?";
-
+        public static final String CANCEL = "UPDATE application SET payment_status='CANCELED' WHERE application_id=?";
+        public static final String EDIT = "UPDATE application SET application_description=? WHERE application_id=?";
         public static final String SET_MASTER = "UPDATE application SET master_id=? WHERE application_id=?";
+        public static final String GET_ALL_WHERE_TEMPLATE = "SELECT * FROM application WHERE ";
+        public static final String GET_ALL_BY_PRICE_RANGE = "SELECT * FROM application WHERE application_price BETWEEN ? AND ?";
+        public static final String GET_ALL_BY_DATE_RANGE = "SELECT * FROM application WHERE date BETWEEN ? AND ?";
     }
 }

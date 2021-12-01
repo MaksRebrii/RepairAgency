@@ -18,82 +18,110 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-2 </div>">
+
+        <%--COMPLETION STATUS FILTRATION--%>
+
+        <div class="col-sm-2">
 
             <h6>Completion status</h6>
 
-            <div class="form-check text-left">
-                <input class="form-check-input" type="checkbox" value="not started" id="notStartedCheck">
-                <label class="form-check-label" for="notStartedCheck">Not started</label>
-            </div>
+            <form method="get" action="controller">
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="in work" id="inWorkCheck">
-                <label class="form-check-label" for="inWorkCheck">In work</label>
-            </div>
+                <input type="hidden" name="command" value="filterByCompletionStatus">
 
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="done" id="doneCheck">
-                <label class="form-check-label" for="doneCheck">Done</label>
-            </div>
+                <div class="form-check text-left">
+                    <input class="form-check-input" type="checkbox" value="NOT_STARTED" id="notStartedCheck"
+                           name="completionStatus">
+                    <label class="form-check-label" for="notStartedCheck">Not started</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="IN_WORK" id="inWorkCheck"
+                           name="completionStatus">
+                    <label class="form-check-label" for="inWorkCheck">In work</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="DONE" id="doneCheck" name="completionStatus">
+                    <label class="form-check-label" for="doneCheck">Done</label>
+                </div>
+                <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+            </form>
+
         </div>
-        <div class="col-sm-2 text-center">
+
+
+        <%--PAYMENT_STATUS FILTRATION--%>
+
+        <div class="col-sm-2">
 
             <h6>Payment status</h6>
 
-            <div class="form-check text-left">
-                <input class="form-check-input" type="checkbox" value="waiting for payment" id="waitingForPayment">
-                <label class="form-check-label" for="waitingForPayment">Waiting for payment</label>
-            </div>
+            <form action="controller" method="get">
+                <input type="hidden" name="command" value="filterByPaymentStatus">
 
-            <div class="form-check text-left">
-                <input class="form-check-input" type="checkbox" value="paid" id="Paid">
-                <label class="form-check-label" for="Paid">Paid</label>
-            </div>
+                <div class="form-check text-left">
+                    <input class="form-check-input" type="checkbox" value="AWAITING_PROCESSING" id="awaitingProcessing"
+                           name="paymentStatus">
+                    <label class="form-check-label" for="waitingForPayment">Awaiting processing</label>
+                </div>
 
-            <%--<div class="form-check">
-                <input class="form-check-input" type="checkbox" value="done" id="doneCheck">   maybe rejected
-                <label class="form-check-label" for="doneCheck">Done</label>
-            </div>--%>
+                <div class="form-check text-left">
+                    <input class="form-check-input" type="checkbox" value="WAITING_FOR_PAYMENT" id="waitingForPayment"
+                           name="paymentStatus">
+                    <label class="form-check-label" for="waitingForPayment">Waiting for payment</label>
+                </div>
+
+                <div class="form-check text-left">
+                    <input class="form-check-input" type="checkbox" value="PAID" id="Paid" name="paymentStatus">
+                    <label class="form-check-label" for="Paid">Paid</label>
+                </div>
+                <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+            </form>
+
+
+            <
         </div>
 
+
+        <%--PRICE FILTRATION--%>
 
         <div class="col-sm-2 text-center">
 
             <h6>Price</h6>
 
             <div class="form-check">
-                <input class="form-check-input" type="radio" id="flexRadioDefault1" name="price" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
-                    Any
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="flexRadioDefault2" name="price">
-                <label class="form-check-label" for="flexRadioDefault2">
-                    <input type="number" min="0" placeholder="min" style="max-width: 100px">
-                    <input type="number" min="0" placeholder="max" style="max-width: 100px">
-                </label>
+                <form method="get" action="controller">
+                    <input type="hidden" name="command" value="filterByPrice">
+                    <input type="number" min="0" placeholder="min" style="max-width: 100px" name="minValue">
+                    <input type="number" min="0" placeholder="max" style="max-width: 100px" name="maxValue">
+
+                    <br>
+                    <br>
+                    <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                </form>
+
             </div>
 
 
         </div>
+
+        <%--DATE FILTRATION--%>
         <div class="col-sm-2 text-center">
 
             <h6>date of issue</h6>
 
             <div class="form-check">
-                <input class="form-check-input" type="radio" id="flexRadioDefault3" name="date" checked>
-                <label class="form-check-label te" for="flexRadioDefault1">
-                    Any
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" id="flexRadioDefault24" name="date">
-                <label class="form-check-label" for="flexRadioDefault2">
-                    <input type="date" style="max-width: 130px">
-                    <input type="date" style="max-width: 130px">
-                </label>
+                <form method="get" action="controller">
+                    <input type="hidden" name="command" value="filterByDate">
+                    <input type="date" style="max-width: 130px" name="minValue">
+                    <input type="date" style="max-width: 130px" name="maxValue">
+                    <br>
+                    <br>
+                    <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                </form>
+
+
             </div>
 
         </div>
@@ -138,10 +166,20 @@
 
                 <tbody>
                 <c:forEach var="application" items="${applicationList}">
+                <c:if test="${application.paymentStatus eq 'CANCELED' and sessionScope.user.role eq 'MANAGER'}">
+                <
+                <continue>>
+                    </c:if>
                     <tr>
-                        <td>${application.id}</td>
-                        <td>${application.description}</td>
-                        <td>${application.date}</td>
+                        <td>
+                            <c:out value="${application.id}"></c:out>
+                        </td>
+                        <td>
+                            <c:out value="${application.description}"></c:out>
+                        </td>
+                        <td>
+                            <c:out value="${application.date}"></c:out>
+                        </td>
 
 
                             <%--MASTER COLUMN--%>
@@ -149,12 +187,13 @@
                         <td>
                             <c:choose>
                                 <c:when test="${application.master.id != 0}">
-                                    ${application.master.surname}
+                                    <c:out value="${application.master.surname}"></c:out>
+
                                 </c:when>
 
                                 <%-- WHEN CURRENT USER IS MANAGER--%>
 
-                                <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
+                                <c:when test="${sessionScope.user.role  eq 'MANAGER'and application.paymentStatus eq 'PAID'}">
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="setMaster">
                                         <input type="hidden" name="applicationId" value="${application.id}">
@@ -162,7 +201,8 @@
                                         <select class="select" name="masterId">
                                             <option value="1" disabled>Master</option>
                                             <c:forEach var="master" items="${masterList}">
-                                                <option value="${master.id}">${master.surname}</option>
+                                                <option value="${master.id}">
+                                                    <c:out value="${master.surname}"></c:out></option>
                                             </c:forEach>
                                         </select>
                                         <br>
@@ -180,37 +220,37 @@
                             <%--COMPLETION STATUS--%>
 
                         <td>
-                                <c:choose>
-                                    <c:when test="${sessionScope.user.role  eq 'MASTER'}">
-                                        <form action="controller" method="post">
-                                            <input type="hidden" name="command" value="changeCompletionStatus">
-                                            <input type="hidden" name="applicationId" value="${application.id}">
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role  eq 'MASTER'}">
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="changeCompletionStatus">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
 
-                                            <select class="select_completion" name="completionStatus">
-                                                <option value="${application.completionStatus}1" hidden></option>
-                                                <option value="NOT_STARTED">not started</option>
-                                                <option value="IN_WORK">in woek</option>
-                                                <option value="DONE">done</option>
-                                            </select>
-                                            <br>
-                                            <br>
-                                            <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
-                                        </form>
-                                    </c:when>
+                                        <select class="select_completion" name="completionStatus">
+                                            <option value="${application.completionStatus}1" hidden></option>
+                                            <option value="NOT_STARTED">not started</option>
+                                            <option value="IN_WORK">in work</option>
+                                            <option value="DONE">done</option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+                                    </form>
+                                </c:when>
 
-                                    <c:otherwise>
-                                        ${application.completionStatus}
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:otherwise>
+                                    <c:out value="${application.completionStatus}"></c:out>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
 
-                        <%--PRICE COLUMN--%>
+                            <%--PRICE COLUMN--%>
 
                         <td>
 
                             <c:choose>
                                 <c:when test="${not empty application.price}">
-                                    <div class="text-warning">${application.price}</div>
+                                    <div class="text-warning"><c:out value="${application.price}"></c:out></div>
                                 </c:when>
 
                                 <%-- WHEN CURRENT USER IS MANAGER--%>
@@ -233,9 +273,10 @@
                             </c:choose>
                         </td>
 
-                        <%--PAYMENT STATUS--%>
+                            <%--PAYMENT STATUS--%>
 
                         <td>
+
                             <c:choose>
                                 <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
                                     <form action="controller" method="post">
@@ -245,9 +286,16 @@
                                         <select class="select_payment" name="paymentStatus">
                                             <option value="${application.paymentStatus}1" hidden></option>
 
-                                            <option value="WAITING_FOR_PAYMENT">waiting for payment</option>
-                                            <option value="PAID" <c:if test="${empty application.price}">disabled</c:if>>paid</option>
-                                            <option value="CANCELED">canceled</option>
+                                            <option value="WAITING_FOR_PAYMENT"
+                                                    <c:if test="${application.paymentStatus eq 'PAID'}">disabled</c:if>>
+                                                waiting for payment
+                                            </option>
+
+                                            <option value="PAID"
+                                                    <c:if test="${empty application.price}">disabled</c:if>>paid
+                                            </option>
+                                            <option value="AWAITING_PROCESSING" hidden>awaiting processing</option>
+
                                         </select>
                                         <br>
                                         <br>
@@ -256,13 +304,33 @@
                                 </c:when>
 
                                 <c:otherwise>
-                                    ${application.paymentStatus}
+                                    <c:out value="${application.paymentStatus}"></c:out>
                                 </c:otherwise>
                             </c:choose>
 
+
                         </td>
+
+                            <%--BUTTON CANCELED THE APP--%>
+
+                        <c:if test="${sessionScope.user.role eq 'CLIENT' and application.paymentStatus eq 'AWAITING_PROCESSING'}">
+                            <td>
+                                <form action="controller" method="post">
+                                    <input type="hidden" name="command" value="cancelApplication">
+                                    <input type="hidden" name="applicationId" value="${application.id}">
+                                    <input type="submit" class="btn btn-outline-danger" value="Cancel">
+                                </form>
+
+                                    <%--TODO--%>
+                                <form action="controller" method="get">
+                                    <input type="hidden" name="applicationId" value="${application.id}">
+                                    <input type="submit" class="btn btn-outline-info" value="Edit">
+                                </form>
+                            </td>
+                        </c:if>
                     </tr>
-                </c:forEach>
+
+                    </c:forEach>
 
                 </tbody>
             </table>
@@ -275,7 +343,7 @@
 <nav aria-label="Navigation for applications">
     <ul class="pagination justify-content-end">
         <li class="page-item"><a href="#" class="page-link">&lsaquo;&lsaquo;</a></li>
-        <li class="page-item active" ><a href="#" class="page-link">1</a></li>
+        <li class="page-item active"><a href="#" class="page-link">1</a></li>
         <li class="page-item"><a href="#" class="page-link">2</a></li>
         <li class="page-item"><a href="#" class="page-link">3</a></li>
         <li class="page-item"><a href="#" class="page-link">&rsaquo;&rsaquo;</a></li>
@@ -283,6 +351,6 @@
 </nav>
 
 <%@include file="WEB-INF/includes/footer-links.jsp" %>
-<%@include file="WEB-INF/includes/activeOptionInSelection.js"%>
+<%@include file="WEB-INF/includes/activeOptionInSelection.js" %>
 </body>
 </html>

@@ -15,16 +15,16 @@ import org.apache.logging.log4j.Logger;
 /**
  * Class utility that encodes password and check identical passwords
  */
-public class HashingPassword {
+public class PasswordUtil {
     // The higher the number of iterations the more
     // expensive computing the hash is for us and
     // also for an attacker.
-    private static final Logger logger = LogManager.getLogger(HashingPassword.class);
+    private static final Logger logger = LogManager.getLogger(PasswordUtil.class);
     private static final int ITERATIONS = 20*1000;
     private static final int SALT_LEN = 32;
     private static final int DESIRED_KEY_LEN = 256;
 
-    private HashingPassword(){}
+    private PasswordUtil(){}
 
     /** Computes a salted PBKDF2 hash of given plaintext password
      suitable for storing in a database.

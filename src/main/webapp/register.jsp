@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="WEB-INF/includes/taglib.jspf" %>
+
 <html>
 <head>
     <%@include file="WEB-INF/includes/header-links.jsp" %>
@@ -60,7 +62,9 @@
                                                         <option value="1" disabled>Role</option>
                                                         <option value="4">client</option>
                                                         <option value="3">master</option>
-                                                        <option value="2">manager</option>
+                                                        <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                                                            <option value="2">manager</option>
+                                                        </c:if>
                                                     </select>
                                                 </div>
                                             </div>
