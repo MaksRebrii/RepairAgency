@@ -5,6 +5,7 @@ import com.my.repairagency.exception.EncryptException;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
 import com.my.repairagency.repository.entity.User;
 import com.my.repairagency.web.utils.PasswordUtil;
+import com.my.repairagency.web.utils.mapper.ApplicationMapper;
 import com.my.repairagency.web.utils.mapper.UserMapper;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import org.apache.logging.log4j.LogManager;
@@ -174,5 +175,33 @@ public class UserDAO {
         } catch (SQLException | DAOException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public List<UserWithRoleDTO> getAllUsersByRole(String[] roles) throws DAOException {
+        logger.trace("get all users by role started");
+        List<UserWithRoleDTO> result;
+
+        StringBuilder query = new StringBuilder(SQLQuery.UserRequest.GET_ALL_WHERE_TEMPLATE);
+
+        query.append("user_role_title = '").append(roles[0]).append("'");
+
+        for (int i = 1; i < roles.length; i++) {
+            query.append(" or ").append(" user_role_title = '").append(roles[i]).append("'");
+        }
+        logger.debug("request {}", query);
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet =
+                     statement.executeQuery(query.toString())) {
+
+            result = UserMapper.getInstance().mapUsers(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting users. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get users");
+        }
+
+        return result;
     }
 }

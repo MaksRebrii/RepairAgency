@@ -1,9 +1,10 @@
-package com.my.repairagency.web.command;
+package com.my.repairagency.web.command.application.filter;
 
 import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.exception.EncryptException;
 import com.my.repairagency.repository.ApplicationDAO;
 import com.my.repairagency.repository.dto.ApplicationDTO;
+import com.my.repairagency.web.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,17 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class FilterByPriceCommand implements Command {
+public class FilterByMasterCommand implements Command {
 
-    private static final Logger logger = LogManager.getLogger(FilterByPriceCommand.class);
+    private static final Logger logger = LogManager.getLogger(FilterByMasterCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("Command start");
-        int minValue = Integer.parseInt(req.getParameter("minValue"));
-        int maxValue = Integer.parseInt(req.getParameter("maxValue"));
+        String mask = req.getParameter("mask");
 
-        List<ApplicationDTO> applicationList = ApplicationDAO.getInstance().getAllApplicationsByPrice(minValue, maxValue);
+
+        List<ApplicationDTO> applicationList = ApplicationDAO.getInstance().getAllApplicationsByMaster(mask);
         req.setAttribute("applicationList", applicationList);
 
         return "applicationsListSearching.jsp";

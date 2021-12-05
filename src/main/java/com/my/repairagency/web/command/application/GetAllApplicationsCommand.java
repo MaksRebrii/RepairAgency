@@ -1,4 +1,4 @@
-package com.my.repairagency.web.command;
+package com.my.repairagency.web.command.application;
 
 import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.repository.ApplicationDAO;
@@ -7,6 +7,7 @@ import com.my.repairagency.repository.dto.ApplicationDTO;
 import com.my.repairagency.repository.dto.UserWithRoleDTO;
 import com.my.repairagency.repository.entity.Role;
 import com.my.repairagency.repository.entity.User;
+import com.my.repairagency.web.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

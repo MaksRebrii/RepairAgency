@@ -1,5 +1,10 @@
 package com.my.repairagency.web.command;
 
+import com.my.repairagency.web.command.application.*;
+import com.my.repairagency.web.command.application.filter.*;
+import com.my.repairagency.web.command.user.GetAllUsersCommand;
+import com.my.repairagency.web.command.user.TopUpAccountCommand;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +31,8 @@ public class CommandContainer {
         commands.put("filterByDate", new FilterByDateCommand());
         commands.put("filterByMaster", new FilterByMasterCommand());
         commands.put("getAllUsers", new GetAllUsersCommand());
-        commands.put("topUpAccount", new TopUpAcccountCommand());
+        commands.put("topUpAccount", new TopUpAccountCommand());
+        commands.put("filterByRole", new FilterByRoleCommand());
     }
 
     private CommandContainer(){}

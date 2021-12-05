@@ -1,9 +1,10 @@
-package com.my.repairagency.web.command;
+package com.my.repairagency.web.command.application;
 
 import com.my.repairagency.exception.DAOException;
 import com.my.repairagency.exception.EncryptException;
 import com.my.repairagency.repository.ApplicationDAO;
 import com.my.repairagency.repository.entity.CompletionStatus;
+import com.my.repairagency.web.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

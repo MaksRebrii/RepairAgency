@@ -11,6 +11,7 @@ public class SQLQuery {
         public static final String GET_ALL_MASTERS = "SELECT * FROM users JOIN user_role USING (user_role_id) WHERE user_role_title = 'MASTER'";
         public static final String GET_ALL_USERS = "SELECT * FROM users JOIN user_role USING (user_role_id)";
         public static final String UPDATE_ACCOUNT = "UPDATE users SET account=? WHERE user_id=?";
+        public static final String GET_ALL_WHERE_TEMPLATE = "SELECT * FROM users JOIN user_role USING (user_role_id) WHERE ";
     }
 
     static class RoleRequest {
