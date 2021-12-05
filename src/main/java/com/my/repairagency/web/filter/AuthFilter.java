@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-//TODO RERITE FILTRER
+//TODO REWRITE FILTER
 
 //@WebFilter("/*")
 public class AuthFilter implements Filter {

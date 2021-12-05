@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +34,8 @@ public class ApplicationDAO {
     }
 
     public List<ApplicationDTO> getAllApplications() throws DAOException {
-        logger.trace("getAllApplication started");
-        List<ApplicationDTO> result = new ArrayList<>();
+        logger.trace("getAllApplications started");
+        List<ApplicationDTO> result;
 
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -91,7 +92,8 @@ public class ApplicationDAO {
         logger.trace("setPrice started");
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.ApplicationRequest.SET_PRICE)) {
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(SQLQuery.ApplicationRequest.SET_PRICE)) {
             preparedStatement.setBigDecimal(1, price);
             preparedStatement.setInt(2, applicationId);
 
@@ -274,8 +276,30 @@ public class ApplicationDAO {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SQLQuery.ApplicationRequest.GET_ALL_BY_DATE_RANGE)) {
 
-            statement.setString(1, minValue);
-            statement.setString(2, maxValue);
+            statement.setDate(1, Date.valueOf(LocalDate.parse(minValue)));
+            statement.setDate(2, Date.valueOf(LocalDate.parse(maxValue)));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            result = ApplicationMapper.getInstance().mapApplications(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting application. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get applications");
+        }
+
+        return result;
+    }
+
+    public List<ApplicationDTO> getAllApplicationsByMaster(String mask) throws DAOException {
+        List<ApplicationDTO> result;
+        String master = "%" + mask + "%";
+
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQLQuery.ApplicationRequest.GET_ALL_BY_MASTER_MASK)) {
+
+            statement.setString(1, master);
 
             ResultSet resultSet = statement.executeQuery();
 

@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * extracts user entity from resultSet
@@ -67,5 +69,15 @@ public class UserMapper implements EntityMapper<User> {
 
         logger.debug("mapped user with role: {}", userWithRoleDTO);
         return userWithRoleDTO;
+    }
+
+    public List<UserWithRoleDTO> mapUsers(ResultSet resultSet) throws SQLException {
+        List<UserWithRoleDTO> result = new ArrayList<>();
+
+        while (resultSet.next()){
+            result.add(this.mapUserWithRole(resultSet));
+        }
+
+        return result;
     }
 }

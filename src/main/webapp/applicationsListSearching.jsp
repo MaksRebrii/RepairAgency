@@ -126,11 +126,19 @@
 
         </div>
 
+
+        <%--Master FILTRATION--%>
         <div class="col-sm-2 text-center">
 
             <h6>Enter master mask</h6>
-            <input type="text" placeholder="mask">
 
+            <form action="controller" method="get">
+                <input type="hidden" name="command" value="filterByMaster">
+                <input type="text" placeholder="mask" required name="mask">
+                <br>
+                <br>
+                <input type="submit" class="btn btn-sm btn-primary btn-block" value="Submit">
+            </form>
         </div>
 
         <div class="col-sm-2 text-center">
@@ -167,8 +175,7 @@
                 <tbody>
                 <c:forEach var="application" items="${applicationList}">
                 <c:if test="${application.paymentStatus eq 'CANCELED' and sessionScope.user.role eq 'MANAGER'}">
-                <
-                <continue>>
+                <<continue>>
                     </c:if>
                     <tr>
                         <td>
@@ -221,7 +228,9 @@
 
                         <td>
                             <c:choose>
-                                <c:when test="${sessionScope.user.role  eq 'MASTER'}">
+                                <c:when test="${sessionScope.user.role  eq 'MASTER' and application.completionStatus  ne 'DONE'}">
+
+
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="changeCompletionStatus">
                                         <input type="hidden" name="applicationId" value="${application.id}">
@@ -278,7 +287,7 @@
                         <td>
 
                             <c:choose>
-                                <c:when test="${sessionScope.user.role  eq 'MANAGER'}">
+                                <c:when test="${sessionScope.user.role  eq 'MANAGER' and application.paymentStatus  ne 'PAID'}">
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="changePaymentStatus">
                                         <input type="hidden" name="applicationId" value="${application.id}">
@@ -286,10 +295,7 @@
                                         <select class="select_payment" name="paymentStatus">
                                             <option value="${application.paymentStatus}1" hidden></option>
 
-                                            <option value="WAITING_FOR_PAYMENT"
-                                                    <c:if test="${application.paymentStatus eq 'PAID'}">disabled</c:if>>
-                                                waiting for payment
-                                            </option>
+                                            <option value="WAITING_FOR_PAYMENT">waiting for payment</option>
 
                                             <option value="PAID"
                                                     <c:if test="${empty application.price}">disabled</c:if>>paid
@@ -311,23 +317,50 @@
 
                         </td>
 
-                            <%--BUTTON CANCELED THE APP--%>
 
-                        <c:if test="${sessionScope.user.role eq 'CLIENT' and application.paymentStatus eq 'AWAITING_PROCESSING'}">
-                            <td>
-                                <form action="controller" method="post">
-                                    <input type="hidden" name="command" value="cancelApplication">
-                                    <input type="hidden" name="applicationId" value="${application.id}">
-                                    <input type="submit" class="btn btn-outline-danger" value="Cancel">
-                                </form>
+                        <c:if test="${sessionScope.user.role eq 'CLIENT'}">
 
-                                    <%--TODO--%>
-                                <form action="controller" method="get">
-                                    <input type="hidden" name="applicationId" value="${application.id}">
-                                    <input type="submit" class="btn btn-outline-info" value="Edit">
-                                </form>
-                            </td>
+                            <%--BUTTON CANCELED AND EDIT THE APP--%>
+                            <c:if test="${application.paymentStatus eq 'AWAITING_PROCESSING'}">
+                                <td>
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="cancelApplication">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+                                        <input type="submit" class="btn btn-outline-danger" value="Cancel">
+                                    </form>
+
+                                        <%--TODO--%>
+                                    <form action="controller" method="get">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+                                        <input type="submit" class="btn btn-outline-info" value="Edit">
+                                    </form>
+                                </td>
+                            </c:if>
+                            <%--TODO--%>
+                            <%--PAY BUTTTON--%>
+
+                            <c:if test="${application.paymentStatus eq 'WAITING_FOR_PAYMENT'}">
+                                <td>
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="pay">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+                                    </form>
+                                </td>
+                            </c:if>
+
+                            <%--FEEDBACK BUTTON--%>
+                            <c:if test="${application.completionStatus eq 'DONE'}">
+                                <td>
+                                    <form action="controller" method="post">
+                                        <input type="hidden" name="command" value="leaveFeedback">
+                                        <input type="hidden" name="applicationId" value="${application.id}">
+                                        <input type="submit" class="btn btn-outline-success" value="Review">
+                                    </form>
+                                </td>
+                            </c:if>
+
                         </c:if>
+
                     </tr>
 
                     </c:forEach>

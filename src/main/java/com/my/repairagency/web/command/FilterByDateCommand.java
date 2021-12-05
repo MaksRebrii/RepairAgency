@@ -20,6 +20,7 @@ public class FilterByDateCommand implements Command {
         logger.trace("Command start");
         String minValue = req.getParameter("minValue");
         String maxValue = req.getParameter("maxValue");
+        System.out.println(minValue);
 
         List<ApplicationDTO> applicationList = ApplicationDAO.getInstance().getAllApplicationsByDate(minValue, maxValue);
         req.setAttribute("applicationList", applicationList);

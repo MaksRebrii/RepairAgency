@@ -60,7 +60,7 @@ public class ApplicationMapper implements EntityMapper<Application> {
         return application;
     }
 
-    public List<ApplicationDTO> mapApplications(ResultSet resultSet) throws SQLException, DAOException {
+    public List<ApplicationDTO> mapApplications(ResultSet resultSet) throws SQLException {
         List<ApplicationDTO> result = new ArrayList<>();
         while (resultSet.next()) {
             Application application = this.map(resultSet);
@@ -74,7 +74,7 @@ public class ApplicationMapper implements EntityMapper<Application> {
             if (client.getId() == -1 || master.getId() == -1) {
                 logger.warn("can't get application's client or master App id: {} Expected Client id: {} Master id {} But was:  Client id: {} Master id {}",
                         application.getId(), application.getClientId(), application.getMasterId(), client.getId(), master.getId());
-                throw new DAOException("Cannot get applications");
+                throw new SQLException();
             }
             ApplicationDTO applicationDTO = new ApplicationDTO(application, client, master);
             result.add(applicationDTO);

@@ -6,9 +6,11 @@ import com.my.repairagency.repository.dto.UserWithRoleDTO;
 import com.my.repairagency.repository.entity.User;
 import com.my.repairagency.web.utils.PasswordUtil;
 import com.my.repairagency.web.utils.mapper.UserMapper;
+import com.sun.jmx.remote.internal.ArrayQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class UserDAO {
 
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 userWithRoleDTO = UserMapper.getInstance().mapUserWithRole(resultSet);
             }
         } catch (SQLException e) {
@@ -78,7 +80,7 @@ public class UserDAO {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 userWithRoleDTO = UserMapper.getInstance().mapUserWithRole(resultSet);
             }
         } catch (SQLException e) {
@@ -136,4 +138,41 @@ public class UserDAO {
         return result;
     }
 
+    public List<UserWithRoleDTO> getAllUsers() throws DAOException {
+        logger.trace("getAllUsers started");
+        List<UserWithRoleDTO> result;
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet =
+                     statement.executeQuery(SQLQuery.UserRequest.GET_ALL_USERS)) {
+
+            result = UserMapper.getInstance().mapUsers(resultSet);
+
+        } catch (SQLException e) {
+            logger.warn("error while getting users. Caused by {}", e.getMessage());
+            throw new DAOException("Cannot get users");
+        }
+        return result;
+    }
+
+    public void updateAccount(int userId, BigDecimal sum) {
+        logger.trace("updating account started");
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement(SQLQuery.UserRequest.UPDATE_ACCOUNT)
+        ){
+            preparedStatement.setBigDecimal(1, sum);
+            preparedStatement.setInt(2, userId);
+
+            if (preparedStatement.executeUpdate() != 1) {
+                logger.warn("Error during updating an  account  {} user {}", sum, userId);
+                throw new DAOException("Cannot update account");
+            }
+
+        } catch (SQLException | DAOException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

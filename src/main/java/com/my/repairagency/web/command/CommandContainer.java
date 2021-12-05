@@ -24,6 +24,9 @@ public class CommandContainer {
         commands.put("filterByPaymentStatus", new FilterByPaymentStatusCommand());
         commands.put("filterByPrice", new FilterByPriceCommand());
         commands.put("filterByDate", new FilterByDateCommand());
+        commands.put("filterByMaster", new FilterByMasterCommand());
+        commands.put("getAllUsers", new GetAllUsersCommand());
+        commands.put("topUpAccount", new TopUpAcccountCommand());
     }
 
     private CommandContainer(){}

@@ -9,6 +9,8 @@ public class SQLQuery {
         //public static final String GET_USER_BY_SURNAME = "SELECT * FROM  users JOIN user_role USING (user_role_id) WHERE ";
         public static final String ADD_NEW_USER = "INSERT INTO users (user_role_id, user_name, user_surname, user_email, user_password) VALUES (?, ?, ?, ?, ?)";
         public static final String GET_ALL_MASTERS = "SELECT * FROM users JOIN user_role USING (user_role_id) WHERE user_role_title = 'MASTER'";
+        public static final String GET_ALL_USERS = "SELECT * FROM users JOIN user_role USING (user_role_id)";
+        public static final String UPDATE_ACCOUNT = "UPDATE users SET account=? WHERE user_id=?";
     }
 
     static class RoleRequest {
@@ -29,5 +31,6 @@ public class SQLQuery {
         public static final String GET_ALL_WHERE_TEMPLATE = "SELECT * FROM application WHERE ";
         public static final String GET_ALL_BY_PRICE_RANGE = "SELECT * FROM application WHERE application_price BETWEEN ? AND ?";
         public static final String GET_ALL_BY_DATE_RANGE = "SELECT * FROM application WHERE date BETWEEN ? AND ?";
+        public static final String GET_ALL_BY_MASTER_MASK = "SELECT * FROM application JOIN users u on u.user_id = application.master_id WHERE user_surname LIKE ?";
     }
 }
